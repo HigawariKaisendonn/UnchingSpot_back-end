@@ -462,11 +462,11 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8088:8088"
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432/unchingspot?sslmode=disable
       JWT_SECRET: your-secret-key-change-in-production
-      PORT: 8080
+      PORT: 8088
     depends_on:
       db:
         condition: service_healthy
@@ -502,7 +502,7 @@ WORKDIR /root/
 COPY --from=builder /app/main .
 COPY --from=builder /app/migrations ./migrations
 
-EXPOSE 8080
+EXPOSE 8088
 
 CMD ["./main"]
 ```
@@ -627,7 +627,7 @@ DATABASE_URL=postgres://postgres:postgres@localhost:5432/unchingspot?sslmode=dis
 JWT_SECRET=your-super-secret-jwt-key-change-in-production
 
 # Server
-PORT=8080
+PORT=8088
 
 # CORS
 FRONTEND_URL=http://localhost:3000
@@ -648,10 +648,10 @@ primary_region = "nrt"
   dockerfile = "Dockerfile"
 
 [env]
-  PORT = "8080"
+  PORT = "8088"
 
 [[services]]
-  internal_port = 8080
+  internal_port = 8088
   protocol = "tcp"
 
   [[services.ports]]
