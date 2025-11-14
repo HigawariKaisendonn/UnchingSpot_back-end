@@ -1,6 +1,11 @@
 # 実装タスクリスト
 
-- [ ] 1. プロジェクト初期化とDocker環境構築
+- [x] 1. プロジェクト初期化とDocker環境構築
+
+
+
+
+
   - Go modulesの初期化とプロジェクト構造の作成
   - docker-compose.ymlとDockerfileの作成
   - PostgreSQL + PostGISコンテナの設定
