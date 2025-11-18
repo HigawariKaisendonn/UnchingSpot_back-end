@@ -35,19 +35,19 @@
     - UserRepository, PinRepository, ConnectRepositoryインターフェースの作成
     - _要件: 1.1, 6.1, 8.1_
 
-- [ ] 4. データベース接続とリポジトリ実装
-  - [ ] 4.1 データベース接続ユーティリティの実装
+- [X] 4. データベース接続とリポジトリ実装
+  - [x] 4.1 データベース接続ユーティリティの実装
     - sqlxを使用したDB接続処理
     - 接続プール設定
     - _要件: 10.7_
-  - [ ] 4.2 UserRepositoryの実装
+  - [x] 4.2 UserRepositoryの実装
     - Create, FindByEmail, FindByID, Updateメソッドの実装
     - _要件: 1.1, 1.2, 2.1, 4.1_
-  - [ ] 4.3 PinRepositoryの実装
+  - [x] 4.3 PinRepositoryの実装
     - PostGISを使用したCRUD操作の実装
     - ST_MakePointとST_X/ST_Yの使用
     - _要件: 6.1, 6.2, 6.3, 7.1, 7.2_
-  - [ ] 4.4 ConnectRepositoryの実装
+  - [x] 4.4 ConnectRepositoryの実装
     - CRUD操作の実装
     - 外部キー制約の処理
     - _要件: 8.1, 8.2, 8.3, 9.1, 9.2_
