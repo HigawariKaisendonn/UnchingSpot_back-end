@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -11,6 +12,11 @@ import (
 )
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8088"
+	}
+	
 	// 環境変数の読み込み
 	if err := godotenv.Load(); err != nil {
 		log.Println("Warning: .env file not found, using environment variables")
@@ -30,7 +36,7 @@ func main() {
 	// 起動ログ
 	log.Println(fmt.Sprintf("Server is ready to start on port %s", port))
 
-	// TODO: ここにHTTPサーバーの起動処理を追加
+	// TODO: ここにHTTPサーバーの起動処理を追加a
 
 	// グレースフルシャットダウンの設定
 	quit := make(chan os.Signal, 1)
