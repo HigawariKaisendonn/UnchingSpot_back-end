@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/yourusername/unchingspot/internal/model"
+	"github.com/yourusername/unchingspot-backend/internal/model"
 )
 
 // UserRepository はユーザーデータアクセスのインターフェースを定義します
