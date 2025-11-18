@@ -444,9 +444,9 @@ services:
   db:
     image: postgis/postgis:15-3.3
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: unchingspot
     ports:
       - "5432:5432"
     volumes:
@@ -464,9 +464,9 @@ services:
     ports:
       - "8088:8088"
     environment:
-      DATABASE_URL: ${DATABASE_URL}
-      JWT_SECRET: ${JWT_SECRET}
-      PORT: ${PORT}
+      DATABASE_URL: postgres://postgres:postgres@db:5432/unchingspot?sslmode=disable
+      JWT_SECRET: your-secret-key-change-in-production
+      PORT: 8088
     depends_on:
       db:
         condition: service_healthy
@@ -580,9 +580,8 @@ CMD ["./main"]
 ```go
 // テスト用DB接続
 func SetupTestDB(t *testing.T) *sqlx.DB {
-    // テスト用の接続情報は環境変数から取得
-    testDBURL := os.Getenv("DATABASE_URL")
-    db, err := sqlx.Connect("postgres", testDBURL)
+    db, err := sqlx.Connect("postgres", 
+        "postgres://postgres:postgres@localhost:5433/test_db?sslmode=disable")
     require.NoError(t, err)
     
     // マイグレーション実行
@@ -622,18 +621,15 @@ func CORSMiddleware(next http.Handler) http.Handler {
 
 ```.env
 # Database
-# 本番環境では強力なパスワードを使用してください
-DATABASE_URL=postgres://<username>:<password>@localhost:5432/unchingspot?sslmode=disable
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/unchingspot?sslmode=disable
 
 # JWT
-# 生成方法: openssl rand -base64 32
-JWT_SECRET=<generate_with_openssl_rand_base64_32>
+JWT_SECRET=your-super-secret-jwt-key-change-in-production
 
 # Server
 PORT=8088
 
 # CORS
-# 本番環境ではフロントエンドの実際のURLを指定してください
 FRONTEND_URL=http://localhost:3000
 
 # Environment
@@ -691,8 +687,8 @@ fly postgres create --name unchingspot-db --region nrt
 # データベース接続
 fly postgres attach unchingspot-db
 
-# シークレット設定（openssl rand -base64 32で生成した値を使用）
-fly secrets set JWT_SECRET=<your-generated-secret-key>
+# シークレット設定
+fly secrets set JWT_SECRET=your-secret-key
 
 # デプロイ
 fly deploy
