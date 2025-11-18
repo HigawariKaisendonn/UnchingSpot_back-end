@@ -32,7 +32,7 @@
   - [x] 4.2 UserRepositoryの実装
     - Create, FindByEmail, FindByID, Updateメソッドの実装
     - _要件: 1.1, 1.2, 2.1, 4.1_
-  - [ ] 4.3 PinRepositoryの実装
+  - [x] 4.3 PinRepositoryの実装
     - PostGISを使用したCRUD操作の実装
     - ST_MakePointとST_X/ST_Yの使用
     - _要件: 6.1, 6.2, 6.3, 7.1, 7.2_
