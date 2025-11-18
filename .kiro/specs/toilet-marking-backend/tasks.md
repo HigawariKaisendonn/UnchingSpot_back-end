@@ -36,7 +36,7 @@
     - PostGISを使用したCRUD操作の実装
     - ST_MakePointとST_X/ST_Yの使用
     - _要件: 6.1, 6.2, 6.3, 7.1, 7.2_
-  - [ ] 4.4 ConnectRepositoryの実装
+  - [x] 4.4 ConnectRepositoryの実装
     - CRUD操作の実装
     - 外部キー制約の処理
     - _要件: 8.1, 8.2, 8.3, 9.1, 9.2_
