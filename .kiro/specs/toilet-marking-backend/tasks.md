@@ -29,7 +29,7 @@
     - sqlxを使用したDB接続処理
     - 接続プール設定
     - _要件: 10.7_
-  - [ ] 4.2 UserRepositoryの実装
+  - [x] 4.2 UserRepositoryの実装
     - Create, FindByEmail, FindByID, Updateメソッドの実装
     - _要件: 1.1, 1.2, 2.1, 4.1_
   - [ ] 4.3 PinRepositoryの実装

@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/yourusername/unchingspot/internal/model"
+	"github.com/higawarikaisendonn/unchingspot-backend/internal/model"
 )
 
 // ConnectRepository は接続データアクセスのインターフェースを定義します

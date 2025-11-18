@@ -1,2 +1,4 @@
 .vscode/
 .env
+.kiro/Steering/
+.DS_Store
