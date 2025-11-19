@@ -65,7 +65,7 @@
     - _要件: なし（補足要件）_
 
 - [ ] 7. サービス層の実装
-  - [ ] 7.1 AuthServiceの実装
+  - [x] 7.1 AuthServiceの実装
     - SignUpメソッド（ユーザー登録）
     - Loginメソッド（ログイン処理）
     - ValidateTokenメソッド（トークン検証）
