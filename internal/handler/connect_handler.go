@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/higawarikaisendonn/unchingspot-backend/internal/middleware"
 	"github.com/higawarikaisendonn/unchingspot-backend/internal/model"
 	"github.com/higawarikaisendonn/unchingspot-backend/internal/service"
 	"github.com/higawarikaisendonn/unchingspot-backend/internal/util"
@@ -27,7 +28,7 @@ func NewConnectHandler(connectService service.ConnectService) *ConnectHandler {
 // 要件: 8.1, 8.7
 func (h *ConnectHandler) CreateConnect(w http.ResponseWriter, r *http.Request) {
 	// コンテキストからユーザーIDを取得（認証ミドルウェアで設定される）
-	userID, ok := r.Context().Value("user_id").(string)
+	userID, ok := r.Context().Value(middleware.UserIDKey).(string)
 	if !ok || userID == "" {
 		util.RespondUnauthorized(w, "Unauthorized")
 		return
@@ -74,7 +75,7 @@ func (h *ConnectHandler) CreateConnect(w http.ResponseWriter, r *http.Request) {
 // 要件: 9.1, 9.6
 func (h *ConnectHandler) UpdateConnect(w http.ResponseWriter, r *http.Request) {
 	// コンテキストからユーザーIDを取得
-	userID, ok := r.Context().Value("user_id").(string)
+	userID, ok := r.Context().Value(middleware.UserIDKey).(string)
 	if !ok || userID == "" {
 		util.RespondUnauthorized(w, "Unauthorized")
 		return
@@ -128,7 +129,7 @@ func (h *ConnectHandler) UpdateConnect(w http.ResponseWriter, r *http.Request) {
 // 要件: 8.1, 9.1
 func (h *ConnectHandler) GetConnects(w http.ResponseWriter, r *http.Request) {
 	// コンテキストからユーザーIDを取得
-	userID, ok := r.Context().Value("user_id").(string)
+	userID, ok := r.Context().Value(middleware.UserIDKey).(string)
 	if !ok || userID == "" {
 		util.RespondUnauthorized(w, "Unauthorized")
 		return
@@ -150,7 +151,7 @@ func (h *ConnectHandler) GetConnects(w http.ResponseWriter, r *http.Request) {
 // 要件: 9.1, 9.6
 func (h *ConnectHandler) DeleteConnect(w http.ResponseWriter, r *http.Request) {
 	// コンテキストからユーザーIDを取得
-	userID, ok := r.Context().Value("user_id").(string)
+	userID, ok := r.Context().Value(middleware.UserIDKey).(string)
 	if !ok || userID == "" {
 		util.RespondUnauthorized(w, "Unauthorized")
 		return
