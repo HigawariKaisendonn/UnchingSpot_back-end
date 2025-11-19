@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/higawarikaisendonn/unchingspot-backend/internal/middleware"
 	"github.com/higawarikaisendonn/unchingspot-backend/internal/model"
 	"github.com/higawarikaisendonn/unchingspot-backend/internal/service"
 	"github.com/higawarikaisendonn/unchingspot-backend/internal/util"
@@ -121,7 +122,7 @@ func (h *AuthHandler) Logout(w http.ResponseWriter, r *http.Request) {
 // 要件: 4.1, 4.2, 4.3
 func (h *AuthHandler) GetMe(w http.ResponseWriter, r *http.Request) {
 	// コンテキストからユーザーIDを取得（認証ミドルウェアで設定される）
-	userID, ok := r.Context().Value("user_id").(string)
+	userID, ok := middleware.GetUserIDFromContext(r.Context())
 	if !ok || userID == "" {
 		// 要件: 4.3 - 未認証の場合
 		util.RespondUnauthorized(w, "Unauthorized")
