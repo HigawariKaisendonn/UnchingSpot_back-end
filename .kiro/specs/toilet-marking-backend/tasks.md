@@ -78,7 +78,7 @@
     - GetPinsByUserメソッド（ユーザーのPin一覧取得）
     - DeletePinメソッド（Pin削除）
     - _要件: 6.1, 6.2, 6.3, 6.4, 6.5, 7.1, 7.2, 7.3, 7.4, 7.5_
-  - [ ] 7.3 ConnectServiceの実装
+  - [x] 7.3 ConnectServiceの実装
     - CreateConnectメソッド（Connect作成）
     - UpdateConnectメソッド（Connect更新）
     - GetConnectsByUserメソッド（ユーザーのConnect一覧取得）
