@@ -32,9 +32,9 @@ func (r *pinRepositoryImpl) Create(ctx context.Context, pin *model.Pin) error {
 	}
 
 	query := `
-		INSERT INTO pins (id, name, user_id, location, created_at, edit_ad)
+		INSERT INTO pins (id, name, user_id, location, created_at, edit_at)
 		VALUES ($1, $2, $3, ST_SetSRID(ST_MakePoint($4, $5), 4326), NOW(), NOW())
-		RETURNING id, created_at, edit_ad
+		RETURNING id, created_at, edit_at
 	`
 
 	err := r.db.QueryRowContext(
@@ -60,9 +60,9 @@ func (r *pinRepositoryImpl) Create(ctx context.Context, pin *model.Pin) error {
 func (r *pinRepositoryImpl) Update(ctx context.Context, pin *model.Pin) error {
 	query := `
 		UPDATE pins
-		SET name = $1, location = ST_SetSRID(ST_MakePoint($2, $3), 4326), edit_ad = NOW()
+		SET name = $1, location = ST_SetSRID(ST_MakePoint($2, $3), 4326), edit_at = NOW()
 		WHERE id = $4 AND deleted_at IS NULL
-		RETURNING edit_ad
+		RETURNING edit_at
 	`
 
 	err := r.db.QueryRowContext(
@@ -91,14 +91,14 @@ func (r *pinRepositoryImpl) FindByID(ctx context.Context, id string) (*model.Pin
 	var pin model.Pin
 
 	query := `
-		SELECT 
-			id, 
-			name, 
+		SELECT
+			id,
+			name,
 			user_id,
 			ST_X(location) as longitude,
 			ST_Y(location) as latitude,
 			created_at,
-			edit_ad,
+			edit_at,
 			deleted_at
 		FROM pins
 		WHERE id = $1 AND deleted_at IS NULL
@@ -132,14 +132,14 @@ func (r *pinRepositoryImpl) FindByUserID(ctx context.Context, userID string) ([]
 	var pins []*model.Pin
 
 	query := `
-		SELECT 
-			id, 
-			name, 
+		SELECT
+			id,
+			name,
 			user_id,
 			ST_X(location) as longitude,
 			ST_Y(location) as latitude,
 			created_at,
-			edit_ad,
+			edit_at,
 			deleted_at
 		FROM pins
 		WHERE user_id = $1 AND deleted_at IS NULL

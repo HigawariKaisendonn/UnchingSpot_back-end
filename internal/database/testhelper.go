@@ -62,7 +62,7 @@ func (h *TestHelper) CreateTestPin(userID, name string, lat, lng float64) (*mode
 	}
 
 	query := `
-		INSERT INTO pins (id, name, user_id, location, created_at, edit_ad)
+		INSERT INTO pins (id, name, user_id, location, created_at, edit_at)
 		VALUES ($1, $2, $3, ST_SetSRID(ST_MakePoint($4, $5), 4326), $6, $7)
 	`
 
@@ -114,12 +114,12 @@ func (h *TestHelper) GetUserByID(id string) (*model.User, error) {
 func (h *TestHelper) GetPinByID(id string) (*model.Pin, error) {
 	var pin model.Pin
 	query := `
-		SELECT 
+		SELECT
 			id, name, user_id,
 			ST_Y(location) as latitude,
 			ST_X(location) as longitude,
-			created_at, edit_ad, deleted_at
-		FROM pins 
+			created_at, edit_at, deleted_at
+		FROM pins
 		WHERE id = $1
 	`
 	err := h.DB.DB.GetContext(context.Background(), &pin, query, id)
