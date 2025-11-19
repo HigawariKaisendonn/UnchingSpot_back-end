@@ -9,14 +9,18 @@ import (
 // responseWriter はhttp.ResponseWriterをラップしてステータスコードとレスポンスサイズを記録します
 type responseWriter struct {
 	http.ResponseWriter
-	statusCode int
-	size       int
+	statusCode  int
+	size        int
+	wroteHeader bool
 }
 
 // WriteHeader はステータスコードを記録します
 func (rw *responseWriter) WriteHeader(statusCode int) {
-	rw.statusCode = statusCode
-	rw.ResponseWriter.WriteHeader(statusCode)
+	if !rw.wroteHeader {
+		rw.statusCode = statusCode
+		rw.wroteHeader = true
+		rw.ResponseWriter.WriteHeader(statusCode)
+	}
 }
 
 // Write はレスポンスボディを書き込み、サイズを記録します
