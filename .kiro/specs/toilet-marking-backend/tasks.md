@@ -99,7 +99,7 @@
     - GET /api/auth/me（ユーザー情報取得）
     - GET /api/auth/test（DB接続テスト）
     - _要件: 1.1, 1.4, 1.5, 2.1, 2.3, 2.4, 3.1, 3.2, 4.1, 4.2, 5.1, 5.2, 5.3_
-  - [ ] 8.3 PinHandlerの実装
+  - [x] 8.3 PinHandlerの実装
     - POST /api/pins（Pin作成）
     - PUT /api/pins/:id（Pin更新）
     - GET /api/pins（Pin一覧取得）

@@ -82,6 +82,17 @@ func ValidateLongitude(lng float64) error {
 	return nil
 }
 
+// ValidateCoordinates は緯度と経度の両方を検証します
+func ValidateCoordinates(lat, lng float64) error {
+	if err := ValidateLatitude(lat); err != nil {
+		return err
+	}
+	if err := ValidateLongitude(lng); err != nil {
+		return err
+	}
+	return nil
+}
+
 // ValidateUUID はUUID形式を検証します（簡易版）
 func ValidateUUID(id string) error {
 	if id == "" {

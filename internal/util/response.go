@@ -38,8 +38,8 @@ func RespondJSON(w http.ResponseWriter, status int, data interface{}) {
 	w.WriteHeader(status)
 
 	if data != nil {
-		response := SuccessResponse{Data: data}
-		if err := json.NewEncoder(w).Encode(response); err != nil {
+		// データを直接エンコード（ラップしない）
+		if err := json.NewEncoder(w).Encode(data); err != nil {
 			// エンコードエラーの場合はログに記録（実装は後で追加可能）
 			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 		}
