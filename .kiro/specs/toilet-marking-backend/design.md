@@ -177,7 +177,7 @@ type Pin struct {
     Latitude  float64    `json:"latitude"`  // PostGISから抽出
     Longitude float64    `json:"longitude"` // PostGISから抽出
     CreatedAt time.Time  `db:"created_at" json:"created_at"`
-    EditedAt  time.Time  `db:"edit_ad" json:"edited_at"`
+    EditedAt  time.Time  `db:"edit_at" json:"edited_at"`
     DeletedAt *time.Time `db:"deleted_at" json:"deleted_at,omitempty"`
 }
 
@@ -272,7 +272,7 @@ CREATE TABLE pins (
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     location GEOMETRY(Point, 4326) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    edit_ad TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    edit_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP
 );
 
@@ -308,7 +308,7 @@ SELECT
     ST_X(location) as longitude,
     ST_Y(location) as latitude,
     created_at,
-    edit_ad,
+    edit_at,
     deleted_at
 FROM pins
 WHERE id = 'pin-uuid';

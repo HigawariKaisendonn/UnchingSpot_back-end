@@ -88,7 +88,7 @@
 
 1. WHEN 認証済みUserが自分が所有するPinの更新リクエストをFrontendから送信するとき、THE System SHALL pinsテーブル内の対象Pinレコードを更新する
 2. WHEN Systemが Pinを更新するとき、THE System SHALL 新しい位置情報をPostGISのPoint型として保存する
-3. WHEN Systemが Pinを更新するとき、THE System SHALL edit_adフィールドを現在の日時で更新する
+3. WHEN Systemが Pinを更新するとき、THE System SHALL edit_atフィールドを現在の日時で更新する
 4. IF Userが所有していないPinの更新を試みたとき、THEN THE System SHALL 権限エラーレスポンスを返す
 5. WHEN Pin更新が成功したとき、THE System SHALL 更新されたPin情報を含むレスポンスをFrontendに返す
 
@@ -126,7 +126,7 @@
 #### 受入基準
 
 1. THE System SHALL usersテーブルを以下のカラムで定義する: id (UUID, PRIMARY KEY), name (text), email (Email), password (text), created_at (timestamp), updated_at (timestamp), deleted_at (timestamp, nullable)
-2. THE System SHALL pinsテーブルを以下のカラムで定義する: id (UUID, PRIMARY KEY), name (text), user_id (UUID, FOREIGN KEY), location (geometry Point), created_at (timestamp), edit_ad (timestamp), deleted_at (timestamp, nullable)
+2. THE System SHALL pinsテーブルを以下のカラムで定義する: id (UUID, PRIMARY KEY), name (text), user_id (UUID, FOREIGN KEY), location (geometry Point), created_at (timestamp), edit_at (timestamp), deleted_at (timestamp, nullable)
 3. THE System SHALL connectテーブルを以下のカラムで定義する: id (UUID, PRIMARY KEY), user_id (UUID, FOREIGN KEY), pins_id_1 (UUID, FOREIGN KEY), pins_id_2 (UUID, FOREIGN KEY), show (boolean)
 4. THE System SHALL pinsテーブルのuser_idカラムにusersテーブルへの外部キー制約を設定する
 5. THE System SHALL connectテーブルのuser_idカラムにusersテーブルへの外部キー制約を設定する
