@@ -64,21 +64,21 @@
     - リクエスト/レスポンスのログ出力
     - _要件: なし（補足要件）_
 
-- [ ] 7. サービス層の実装
-  - [ ] 7.1 AuthServiceの実装
+- [X] 7. サービス層の実装
+  - [x] 7.1 AuthServiceの実装
     - SignUpメソッド（ユーザー登録）
     - Loginメソッド（ログイン処理）
     - ValidateTokenメソッド（トークン検証）
     - TestConnectionメソッド（DB接続テスト）
     - _要件: 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 2.2, 2.3, 2.4, 5.1, 5.2, 5.3_
-  - [ ] 7.2 PinServiceの実装
+  - [x] 7.2 PinServiceの実装
     - CreatePinメソッド（Pin作成）
     - UpdatePinメソッド（Pin更新）
     - GetPinメソッド（Pin取得）
     - GetPinsByUserメソッド（ユーザーのPin一覧取得）
     - DeletePinメソッド（Pin削除）
     - _要件: 6.1, 6.2, 6.3, 6.4, 6.5, 7.1, 7.2, 7.3, 7.4, 7.5_
-  - [ ] 7.3 ConnectServiceの実装
+  - [x] 7.3 ConnectServiceの実装
     - CreateConnectメソッド（Connect作成）
     - UpdateConnectメソッド（Connect更新）
     - GetConnectsByUserメソッド（ユーザーのConnect一覧取得）
