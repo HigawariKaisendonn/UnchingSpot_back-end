@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"strings"
 
@@ -68,5 +69,9 @@ func GetUserEmailFromContext(ctx context.Context) (string, bool) {
 func respondError(w http.ResponseWriter, status int, message string) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	w.Write([]byte(`{"error":{"message":"` + message + `"}}`))
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"error": map[string]string{
+			"message": message,
+		},
+	})
 }
