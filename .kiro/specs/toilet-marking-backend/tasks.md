@@ -86,27 +86,27 @@
     - Pin存在確認ロジック
     - _要件: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6_
 
-- [ ] 8. ハンドラー層の実装
-  - [ ] 8.1 共通レスポンスユーティリティの実装
+- [X] 8. ハンドラー層の実装
+  - [x] 8.1 共通レスポンスユーティリティの実装
     - JSON成功レスポンス関数
     - JSONエラーレスポンス関数
     - バリデーションエラー処理
     - _要件: 1.5, 2.4, 6.5, 7.5, 8.7, 9.6_
-  - [ ] 8.2 AuthHandlerの実装
+  - [x] 8.2 AuthHandlerの実装
     - POST /api/auth/signup（ユーザー登録）
     - POST /api/auth/login（ログイン）
     - POST /api/auth/logout（ログアウト）
     - GET /api/auth/me（ユーザー情報取得）
     - GET /api/auth/test（DB接続テスト）
     - _要件: 1.1, 1.4, 1.5, 2.1, 2.3, 2.4, 3.1, 3.2, 4.1, 4.2, 5.1, 5.2, 5.3_
-  - [ ] 8.3 PinHandlerの実装
+  - [x] 8.3 PinHandlerの実装
     - POST /api/pins（Pin作成）
     - PUT /api/pins/:id（Pin更新）
     - GET /api/pins（Pin一覧取得）
     - GET /api/pins/:id（Pin取得）
     - DELETE /api/pins/:id（Pin削除）
     - _要件: 6.1, 6.5, 7.1, 7.5_
-  - [ ] 8.4 ConnectHandlerの実装
+  - [x] 8.4 ConnectHandlerの実装
     - POST /api/connects（Connect作成）
     - PUT /api/connects/:id（Connect更新）
     - GET /api/connects（Connect一覧取得）
