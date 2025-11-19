@@ -128,16 +128,27 @@ func (h *AuthHandler) GetMe(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Authorizationヘッダーからトークンを取得
+	token := r.Header.Get("Authorization")
+	if token == "" {
+		util.RespondUnauthorized(w, "Unauthorized")
+		return
+	}
+
+	// "Bearer "プレフィックスを削除
+	if len(token) > 7 && token[:7] == "Bearer " {
+		token = token[7:]
+	}
+
 	// ユーザー情報の取得（要件: 4.1）
-	// ValidateTokenを使用してユーザー情報を取得
-	// 実際にはミドルウェアで既に検証済みなので、ここでは簡略化
-	// より完全な実装では、userRepositoryから直接取得することも可能
-	
+	user, err := h.authService.ValidateToken(r.Context(), token)
+	if err != nil {
+		util.RespondUnauthorized(w, "Invalid token")
+		return
+	}
+
 	// 要件: 4.2 - ユーザー名を含むレスポンスを返す
-	util.RespondJSON(w, http.StatusOK, map[string]string{
-		"user_id": userID,
-		"message": "User authenticated",
-	})
+	util.RespondJSON(w, http.StatusOK, user)
 }
 
 // TestConnection はデータベース接続をテストします
