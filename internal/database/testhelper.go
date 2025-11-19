@@ -76,7 +76,7 @@ func (h *TestHelper) CreateTestPin(userID, name string, lat, lng float64) (*mode
 }
 
 // CreateTestConnect はテスト用のConnectを作成します
-func (h *TestHelper) CreateTestConnect(userID, pinID1, pinID2 string, show bool) (*model.Connect, error) {
+func (h *TestHelper) CreateTestConnect(userID, pinID1 string, pinID2 []string, show bool) (*model.Connect, error) {
 	connect := &model.Connect{
 		ID:     uuid.New().String(),
 		UserID: userID,

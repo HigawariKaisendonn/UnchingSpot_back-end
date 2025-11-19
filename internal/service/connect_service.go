@@ -22,8 +22,8 @@ var (
 
 // ConnectService はConnect関連のビジネスロジックを提供します
 type ConnectService interface {
-	CreateConnect(ctx context.Context, userID, pinID1, pinID2 string, show bool) (*model.Connect, error)
-	UpdateConnect(ctx context.Context, connectID, userID, pinID1, pinID2 string, show bool) (*model.Connect, error)
+	CreateConnect(ctx context.Context, userID, name, pinID1 string, pinID2 []string, show bool) (*model.Connect, error)
+	UpdateConnect(ctx context.Context, connectID, userID, name, pinID1 string, pinID2 []string, show bool) (*model.Connect, error)
 	GetConnectsByUser(ctx context.Context, userID string) ([]*model.Connect, error)
 	DeleteConnect(ctx context.Context, connectID, userID string) error
 }
@@ -44,9 +44,9 @@ func NewConnectService(connectRepo repository.ConnectRepository, pinRepo reposit
 
 // CreateConnect は新しいConnectを作成します
 // 要件: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6, 8.7
-func (s *connectServiceImpl) CreateConnect(ctx context.Context, userID, pinID1, pinID2 string, show bool) (*model.Connect, error) {
+func (s *connectServiceImpl) CreateConnect(ctx context.Context, userID, name, pinID1 string, pinID2 []string, show bool) (*model.Connect, error) {
 	// Pin IDの検証
-	if pinID1 == "" || pinID2 == "" {
+	if pinID1 == "" || len(pinID2) == 0 {
 		return nil, ErrInvalidPinIDs
 	}
 
@@ -56,15 +56,18 @@ func (s *connectServiceImpl) CreateConnect(ctx context.Context, userID, pinID1, 
 		return nil, ErrPinNotExist
 	}
 
-	// Pin2の存在確認（要件: 8.6）
-	pin2, err := s.pinRepo.FindByID(ctx, pinID2)
-	if err != nil || pin2 == nil {
-		return nil, ErrPinNotExist
+	// Pin2の各IDの存在確認（要件: 8.6）
+	for _, pid := range pinID2 {
+		pin, err := s.pinRepo.FindByID(ctx, pid)
+		if err != nil || pin == nil {
+			return nil, ErrPinNotExist
+		}
 	}
 
 	// 新しいConnectの作成（要件: 8.1, 8.2, 8.3, 8.4, 8.5）
 	connect := &model.Connect{
 		UserID: userID,
+		Name:   name,
 		PinID1: pinID1,
 		PinID2: pinID2,
 		Show:   show,
@@ -80,7 +83,7 @@ func (s *connectServiceImpl) CreateConnect(ctx context.Context, userID, pinID1, 
 
 // UpdateConnect は既存のConnectを更新します
 // 要件: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6
-func (s *connectServiceImpl) UpdateConnect(ctx context.Context, connectID, userID, pinID1, pinID2 string, show bool) (*model.Connect, error) {
+func (s *connectServiceImpl) UpdateConnect(ctx context.Context, connectID, userID, name, pinID1 string, pinID2 []string, show bool) (*model.Connect, error) {
 	// 既存のConnectを取得（要件: 9.1）
 	connect, err := s.connectRepo.FindByID(ctx, connectID)
 	if err != nil {
@@ -92,6 +95,11 @@ func (s *connectServiceImpl) UpdateConnect(ctx context.Context, connectID, userI
 		return nil, ErrUnauthorizedConnectAccess
 	}
 
+	// 名前の更新
+	if name != "" {
+		connect.Name = name
+	}
+
 	// Pin IDが指定されている場合は存在確認（要件: 9.5）
 	if pinID1 != "" {
 		pin1, err := s.pinRepo.FindByID(ctx, pinID1)
@@ -101,10 +109,13 @@ func (s *connectServiceImpl) UpdateConnect(ctx context.Context, connectID, userI
 		connect.PinID1 = pinID1
 	}
 
-	if pinID2 != "" {
-		pin2, err := s.pinRepo.FindByID(ctx, pinID2)
-		if err != nil || pin2 == nil {
-			return nil, ErrPinNotExist
+	if len(pinID2) > 0 {
+		// Pin2の各IDの存在確認
+		for _, pid := range pinID2 {
+			pin, err := s.pinRepo.FindByID(ctx, pid)
+			if err != nil || pin == nil {
+				return nil, ErrPinNotExist
+			}
 		}
 		connect.PinID2 = pinID2
 	}

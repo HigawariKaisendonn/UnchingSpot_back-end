@@ -128,12 +128,13 @@ func TestTestHelper_CreateTestConnect(t *testing.T) {
 	require.NoError(t, err)
 
 	// Connectの作成
-	connect, err := helper.CreateTestConnect(user.ID, pin1.ID, pin2.ID, true)
+	connect, err := helper.CreateTestConnect(user.ID, pin1.ID, []string{pin2.ID}, true)
 	require.NoError(t, err)
 	assert.NotEmpty(t, connect.ID)
 	assert.Equal(t, user.ID, connect.UserID)
 	assert.Equal(t, pin1.ID, connect.PinID1)
-	assert.Equal(t, pin2.ID, connect.PinID2)
+	assert.Len(t, connect.PinID2, 1)
+	assert.Equal(t, pin2.ID, connect.PinID2[0])
 	assert.True(t, connect.Show)
 
 	// データベースから取得して確認
@@ -142,5 +143,6 @@ func TestTestHelper_CreateTestConnect(t *testing.T) {
 	assert.Equal(t, connect.ID, retrievedConnect.ID)
 	assert.Equal(t, connect.UserID, retrievedConnect.UserID)
 	assert.Equal(t, connect.PinID1, retrievedConnect.PinID1)
-	assert.Equal(t, connect.PinID2, retrievedConnect.PinID2)
+	assert.Len(t, retrievedConnect.PinID2, 1)
+	assert.Equal(t, connect.PinID2[0], retrievedConnect.PinID2[0])
 }
