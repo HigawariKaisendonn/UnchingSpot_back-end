@@ -106,7 +106,7 @@
     - GET /api/pins/:id（Pin取得）
     - DELETE /api/pins/:id（Pin削除）
     - _要件: 6.1, 6.5, 7.1, 7.5_
-  - [ ] 8.4 ConnectHandlerの実装
+  - [x] 8.4 ConnectHandlerの実装
     - POST /api/connects（Connect作成）
     - PUT /api/connects/:id（Connect更新）
     - GET /api/connects（Connect一覧取得）
