@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/higawarikaisendonn/unchingspot-backend/internal/middleware"
 	"github.com/higawarikaisendonn/unchingspot-backend/internal/model"
 	"github.com/higawarikaisendonn/unchingspot-backend/internal/service"
 	"github.com/higawarikaisendonn/unchingspot-backend/internal/util"
@@ -27,7 +28,7 @@ func NewPinHandler(pinService service.PinService) *PinHandler {
 // 要件: 6.1, 6.5
 func (h *PinHandler) CreatePin(w http.ResponseWriter, r *http.Request) {
 	// コンテキストからユーザーIDを取得（認証ミドルウェアで設定される）
-	userID, ok := r.Context().Value("user_id").(string)
+	userID, ok := middleware.GetUserIDFromContext(r.Context())
 	if !ok || userID == "" {
 		util.RespondUnauthorized(w, "Unauthorized")
 		return
@@ -70,7 +71,7 @@ func (h *PinHandler) CreatePin(w http.ResponseWriter, r *http.Request) {
 // 要件: 7.1, 7.5
 func (h *PinHandler) UpdatePin(w http.ResponseWriter, r *http.Request) {
 	// コンテキストからユーザーIDを取得
-	userID, ok := r.Context().Value("user_id").(string)
+	userID, ok := middleware.GetUserIDFromContext(r.Context())
 	if !ok || userID == "" {
 		util.RespondUnauthorized(w, "Unauthorized")
 		return
@@ -129,7 +130,7 @@ func (h *PinHandler) UpdatePin(w http.ResponseWriter, r *http.Request) {
 // 要件: 6.1, 7.1
 func (h *PinHandler) GetPins(w http.ResponseWriter, r *http.Request) {
 	// コンテキストからユーザーIDを取得
-	userID, ok := r.Context().Value("user_id").(string)
+	userID, ok := middleware.GetUserIDFromContext(r.Context())
 	if !ok || userID == "" {
 		util.RespondUnauthorized(w, "Unauthorized")
 		return
@@ -177,7 +178,7 @@ func (h *PinHandler) GetPin(w http.ResponseWriter, r *http.Request) {
 // 要件: 7.1, 7.5
 func (h *PinHandler) DeletePin(w http.ResponseWriter, r *http.Request) {
 	// コンテキストからユーザーIDを取得
-	userID, ok := r.Context().Value("user_id").(string)
+	userID, ok := middleware.GetUserIDFromContext(r.Context())
 	if !ok || userID == "" {
 		util.RespondUnauthorized(w, "Unauthorized")
 		return
