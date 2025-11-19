@@ -92,7 +92,7 @@
     - JSONエラーレスポンス関数
     - バリデーションエラー処理
     - _要件: 1.5, 2.4, 6.5, 7.5, 8.7, 9.6_
-  - [ ] 8.2 AuthHandlerの実装
+  - [x] 8.2 AuthHandlerの実装
     - POST /api/auth/signup（ユーザー登録）
     - POST /api/auth/login（ログイン）
     - POST /api/auth/logout（ログアウト）
