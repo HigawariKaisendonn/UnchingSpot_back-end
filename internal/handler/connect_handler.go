@@ -37,7 +37,9 @@ func (h *ConnectHandler) CreateConnect(w http.ResponseWriter, r *http.Request) {
 	// リクエストボディのパース
 	var req model.CreateConnectRequest
 	if err := util.ParseJSONBody(r, &req); err != nil {
-		util.RespondValidationError(w, "Invalid request body")
+		// デバッグ用にエラー内容をログ出力
+		println("ParseJSONBody error:", err.Error())
+		util.RespondValidationError(w, err.Error())
 		return
 	}
 
@@ -106,7 +108,7 @@ func (h *ConnectHandler) UpdateConnect(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Connect更新処理（要件: 9.1）
-	connect, err := h.connectService.UpdateConnect(r.Context(), connectID, userID, req.PinID1, req.PinID2, show)
+	connect, err := h.connectService.UpdateConnect(r.Context(), connectID, userID, req.Name, req.PinID1, req.PinID2, show)
 	if err != nil {
 		if errors.Is(err, service.ErrConnectNotFound) {
 			util.RespondNotFound(w, "Connect not found")
