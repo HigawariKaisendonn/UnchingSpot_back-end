@@ -7,6 +7,8 @@
 - `000001_create_users_table.up.sql` / `down.sql` - usersテーブルの作成
 - `000002_create_pins_table.up.sql` / `down.sql` - pinsテーブルの作成（PostGIS対応）
 - `000003_create_connect_table.up.sql` / `down.sql` - connectテーブルの作成
+  - `pins_id_1`: 開始点と終了点を表すUUID
+  - `pins_id_2`: 複数の中間点を表すUUID配列（図形描画対応）
 
 ## マイグレーションの実行方法
 

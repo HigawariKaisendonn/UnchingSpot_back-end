@@ -37,22 +37,28 @@ func (h *ConnectHandler) CreateConnect(w http.ResponseWriter, r *http.Request) {
 	// リクエストボディのパース
 	var req model.CreateConnectRequest
 	if err := util.ParseJSONBody(r, &req); err != nil {
-		util.RespondValidationError(w, "Invalid request body")
+		// デバッグ用にエラー内容をログ出力
+		println("ParseJSONBody error:", err.Error())
+		util.RespondValidationError(w, err.Error())
 		return
 	}
 
 	// バリデーション
+	if err := util.ValidateRequired(req.Name, "name"); err != nil {
+		util.RespondValidationError(w, err.Error())
+		return
+	}
 	if err := util.ValidateRequired(req.PinID1, "pin_id_1"); err != nil {
 		util.RespondValidationError(w, err.Error())
 		return
 	}
-	if err := util.ValidateRequired(req.PinID2, "pin_id_2"); err != nil {
-		util.RespondValidationError(w, err.Error())
+	if len(req.PinID2) == 0 {
+		util.RespondValidationError(w, "pin_id_2 is required and must contain at least one pin")
 		return
 	}
 
 	// Connect作成処理（要件: 8.1）
-	connect, err := h.connectService.CreateConnect(r.Context(), userID, req.PinID1, req.PinID2, req.Show)
+	connect, err := h.connectService.CreateConnect(r.Context(), userID, req.Name, req.PinID1, req.PinID2, req.Show)
 	if err != nil {
 		if errors.Is(err, service.ErrPinNotExist) {
 			util.RespondNotFound(w, "One or both pins do not exist")
@@ -102,7 +108,7 @@ func (h *ConnectHandler) UpdateConnect(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Connect更新処理（要件: 9.1）
-	connect, err := h.connectService.UpdateConnect(r.Context(), connectID, userID, req.PinID1, req.PinID2, show)
+	connect, err := h.connectService.UpdateConnect(r.Context(), connectID, userID, req.Name, req.PinID1, req.PinID2, show)
 	if err != nil {
 		if errors.Is(err, service.ErrConnectNotFound) {
 			util.RespondNotFound(w, "Connect not found")

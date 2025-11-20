@@ -76,7 +76,7 @@ func TestConnectHandler_CreateConnect(t *testing.T) {
 
 		reqBody := model.CreateConnectRequest{
 			PinID1: pin1.ID,
-			PinID2: pin2.ID,
+			PinID2: []string{pin2.ID},
 			Show:   true,
 		}
 		body, _ := json.Marshal(reqBody)
@@ -97,7 +97,8 @@ func TestConnectHandler_CreateConnect(t *testing.T) {
 		assert.NotEmpty(t, connect.ID)
 		assert.Equal(t, user.ID, connect.UserID)
 		assert.Equal(t, pin1.ID, connect.PinID1)
-		assert.Equal(t, pin2.ID, connect.PinID2)
+		assert.Len(t, connect.PinID2, 1)
+		assert.Equal(t, pin2.ID, connect.PinID2[0])
 		assert.True(t, connect.Show)
 	})
 
@@ -120,7 +121,7 @@ func TestConnectHandler_CreateConnect(t *testing.T) {
 
 		reqBody := model.CreateConnectRequest{
 			PinID1: pin1.ID,
-			PinID2: pin2.ID,
+			PinID2: []string{pin2.ID},
 			Show:   false,
 		}
 		body, _ := json.Marshal(reqBody)
@@ -145,7 +146,7 @@ func TestConnectHandler_CreateConnect(t *testing.T) {
 
 		reqBody := model.CreateConnectRequest{
 			PinID1: "pin1-id",
-			PinID2: "pin2-id",
+			PinID2: []string{"pin2-id"},
 			Show:   true,
 		}
 		body, _ := json.Marshal(reqBody)
@@ -172,7 +173,7 @@ func TestConnectHandler_CreateConnect(t *testing.T) {
 
 		reqBody := model.CreateConnectRequest{
 			PinID1: "nonexistent-pin-1",
-			PinID2: "nonexistent-pin-2",
+			PinID2: []string{"nonexistent-pin-2"},
 			Show:   true,
 		}
 		body, _ := json.Marshal(reqBody)
@@ -210,7 +211,7 @@ func TestConnectHandler_CreateConnect(t *testing.T) {
 
 		reqBody := model.CreateConnectRequest{
 			PinID1: pin1.ID,
-			PinID2: "nonexistent-pin",
+			PinID2: []string{"nonexistent-pin"},
 			Show:   true,
 		}
 		body, _ := json.Marshal(reqBody)
@@ -239,7 +240,7 @@ func TestConnectHandler_CreateConnect(t *testing.T) {
 
 		reqBody := model.CreateConnectRequest{
 			PinID1: "",
-			PinID2: "pin2-id",
+			PinID2: []string{"pin2-id"},
 			Show:   true,
 		}
 		body, _ := json.Marshal(reqBody)
@@ -267,7 +268,7 @@ func TestConnectHandler_CreateConnect(t *testing.T) {
 
 		reqBody := model.CreateConnectRequest{
 			PinID1: "pin1-id",
-			PinID2: "",
+			PinID2: []string{},
 			Show:   true,
 		}
 		body, _ := json.Marshal(reqBody)
@@ -330,7 +331,7 @@ func TestConnectHandler_UpdateConnect(t *testing.T) {
 		showFalse := false
 		reqBody := model.UpdateConnectRequest{
 			PinID1: pin1.ID,
-			PinID2: pin3.ID,
+			PinID2: []string{pin3.ID},
 			Show:   &showFalse,
 		}
 		body, _ := json.Marshal(reqBody)
@@ -350,7 +351,8 @@ func TestConnectHandler_UpdateConnect(t *testing.T) {
 		require.NoError(t, err)
 		assert.Equal(t, connect.ID, updatedConnect.ID)
 		assert.Equal(t, pin1.ID, updatedConnect.PinID1)
-		assert.Equal(t, pin3.ID, updatedConnect.PinID2)
+		assert.Len(t, updatedConnect.PinID2, 1)
+		assert.Equal(t, pin3.ID, updatedConnect.PinID2[0])
 		assert.False(t, updatedConnect.Show)
 	})
 
@@ -493,7 +495,7 @@ func TestConnectHandler_UpdateConnect(t *testing.T) {
 
 		reqBody := model.UpdateConnectRequest{
 			PinID1: pin1.ID,
-			PinID2: "nonexistent-pin",
+			PinID2: []string{"nonexistent-pin"},
 		}
 		body, _ := json.Marshal(reqBody)
 

@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/higawarikaisendonn/unchingspot-backend/internal/model"
 	"github.com/jmoiron/sqlx"
+	"github.com/lib/pq"
 )
 
 // connectRepositoryImpl はConnectRepositoryの実装
@@ -31,8 +32,8 @@ func (r *connectRepositoryImpl) Create(ctx context.Context, connect *model.Conne
 	}
 
 	query := `
-		INSERT INTO connect (id, user_id, pins_id_1, pins_id_2, show)
-		VALUES ($1, $2, $3, $4, $5)
+		INSERT INTO connect (id, user_id, name, pins_id_1, pins_id_2, show)
+		VALUES ($1, $2, $3, $4, $5, $6)
 		RETURNING id
 	`
 
@@ -41,8 +42,9 @@ func (r *connectRepositoryImpl) Create(ctx context.Context, connect *model.Conne
 		query,
 		connect.ID,
 		connect.UserID,
+		connect.Name,
 		connect.PinID1,
-		connect.PinID2,
+		pq.Array(connect.PinID2),
 		connect.Show,
 	).Scan(&connect.ID)
 
@@ -58,15 +60,16 @@ func (r *connectRepositoryImpl) Create(ctx context.Context, connect *model.Conne
 func (r *connectRepositoryImpl) Update(ctx context.Context, connect *model.Connect) error {
 	query := `
 		UPDATE connect
-		SET pins_id_1 = $1, pins_id_2 = $2, show = $3
-		WHERE id = $4
+		SET name = $1, pins_id_1 = $2, pins_id_2 = $3, show = $4
+		WHERE id = $5
 	`
 
 	result, err := r.db.ExecContext(
 		ctx,
 		query,
+		connect.Name,
 		connect.PinID1,
-		connect.PinID2,
+		pq.Array(connect.PinID2),
 		connect.Show,
 		connect.ID,
 	)
@@ -93,7 +96,7 @@ func (r *connectRepositoryImpl) FindByID(ctx context.Context, id string) (*model
 	var connect model.Connect
 
 	query := `
-		SELECT id, user_id, pins_id_1, pins_id_2, show
+		SELECT id, user_id, name, pins_id_1, pins_id_2, show
 		FROM connect
 		WHERE id = $1
 	`
@@ -115,7 +118,7 @@ func (r *connectRepositoryImpl) FindByUserID(ctx context.Context, userID string)
 	var connects []*model.Connect
 
 	query := `
-		SELECT id, user_id, pins_id_1, pins_id_2, show
+		SELECT id, user_id, name, pins_id_1, pins_id_2, show
 		FROM connect
 		WHERE user_id = $1
 		ORDER BY id

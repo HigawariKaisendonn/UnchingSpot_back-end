@@ -28,15 +28,19 @@ type UpdatePinRequest struct {
 }
 
 // CreateConnectRequest は接続作成リクエストを表します
+// PinID1は開始点と終了点、PinID2は複数の中間点を表します
 type CreateConnectRequest struct {
-	PinID1 string `json:"pin_id_1" validate:"required,uuid"`
-	PinID2 string `json:"pin_id_2" validate:"required,uuid"`
-	Show   bool   `json:"show"`
+	Name   string   `json:"name" validate:"required"`
+	PinID1 string   `json:"pin_id_1" validate:"required,uuid"`
+	PinID2 []string `json:"pin_id_2" validate:"required,dive,uuid"`
+	Show   bool     `json:"show"`
 }
 
 // UpdateConnectRequest は接続更新リクエストを表します
+// PinID1は開始点と終了点、PinID2は複数の中間点を表します
 type UpdateConnectRequest struct {
-	PinID1 string `json:"pin_id_1" validate:"uuid"`
-	PinID2 string `json:"pin_id_2" validate:"uuid"`
-	Show   *bool  `json:"show"`
+	Name   string   `json:"name"`
+	PinID1 string   `json:"pin_id_1" validate:"uuid"`
+	PinID2 []string `json:"pin_id_2" validate:"dive,uuid"`
+	Show   *bool    `json:"show"`
 }
